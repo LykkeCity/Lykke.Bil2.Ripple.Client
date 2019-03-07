@@ -21,7 +21,8 @@ namespace Lykke.Bil2.Ripple.Client
         public static IServiceCollection AddRippleClient(this IServiceCollection services,
             string url,
             string username = null,
-            string password = null)
+            string password = null,
+            bool logRequestErrors = true)
         {
             if (string.IsNullOrWhiteSpace(url) || !Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out _))
             {
@@ -33,8 +34,12 @@ namespace Lykke.Bil2.Ripple.Client
                 var builder = HttpClientGenerator.HttpClientGenerator
                     .BuildForUrl(url)
                     .WithoutRetries()
-                    .WithoutCaching()
-                    .WithRequestErrorLogging(serviceProvider.GetRequiredService<ILogFactory>());
+                    .WithoutCaching();
+
+                if (logRequestErrors)
+                {
+                    builder = builder.WithRequestErrorLogging(serviceProvider.GetRequiredService<ILogFactory>());
+                }
 
                 if (!string.IsNullOrWhiteSpace(username))
                 {

@@ -6,11 +6,12 @@ namespace Lykke.Bil2.Ripple.Client
     /// Rippled API method response.
     /// </summary>
     /// <typeparam name="TResult">Type of method result.</typeparam>
-    public sealed class RippleResponse<TResult> where TResult : RippleRequestResultBase
+    public sealed class RippleResponse<TResult> where TResult : RippleResponseResultBase
     {
         /// <summary>
         /// Gets or sets rippled API method result.
         /// </summary>
+        [JsonProperty("result")]
         public TResult Result { get; set; }
     }
 }
