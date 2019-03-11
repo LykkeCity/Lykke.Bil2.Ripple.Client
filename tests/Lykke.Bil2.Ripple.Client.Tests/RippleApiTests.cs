@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Common.Log;
 using Lykke.Bil2.Ripple.Client.Api.AccountInfo;
 using Lykke.Bil2.Ripple.Client.Api.ServerState;
+using Lykke.Bil2.Ripple.Client.Api.Tx;
 using Lykke.Common.Log;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -43,13 +44,13 @@ namespace Lykke.Bil2.Ripple.Client.Tests
         }
 
         [Test]
-        public async Task ShouldGetAccountInfo()
+        public async Task ShouldReturnAccountInfo()
         {
             // Arrange
 
             // Act
 
-            var response = await _api.Post(new AccountInfoRequest((string)_settings.Account));
+            var response = await _api.Post(new AccountInfoRequest("rE6jo1LZNZeD3iexQ6DnfCREEWZ9aUweVy"));
 
             // Assert
 
@@ -66,7 +67,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
 
             // Act
 
-            var response = await _api.Post(new AccountInfoRequest((string)_settings.AccountWithDestinationTagRequired));
+            var response = await _api.Post(new AccountInfoRequest("rG1Zu2dm2Ty9pQrnGJux1RuKZA6qhjWwMc"));
 
             // Assert
 
@@ -80,7 +81,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
 
             // Act
 
-            var response = await _api.Post(new AccountInfoRequest((string)_settings.AccountNotFound));
+            var response = await _api.Post(new AccountInfoRequest("r9otZt3oCDL2UPioEiGduu5g5zXkqaPZt9"));
 
             // Assert
 
@@ -103,6 +104,46 @@ namespace Lykke.Bil2.Ripple.Client.Tests
             Assert.IsNotNull(response.Result.State.ClosedLedger ?? response.Result.State.ValidatedLedger);
             Assert.AreEqual("success", response.Result.Status);
             Assert.AreEqual("full", response.Result.State.ServerState);
+        }
+
+        [Test]
+        public async Task ShouldReturnTxPayment()
+        {
+            // Arrange
+            var hash = "673D36E10DBD969D3F639858F2B0D3151CB3B2F2FE2300188742A685ABD8C3EC";
+
+            // Act
+
+            var response = await _api.Post(new TxRequest(hash));
+
+            // Assert
+
+            Assert.AreEqual(hash, response.Result.Hash);
+            Assert.AreEqual("Payment", response.Result.TransactionType);
+            Assert.AreEqual("0.290000", response.Result.Meta.DeliveredAmount.Value);
+            Assert.AreEqual("12", response.Result.Fee);
+            Assert.AreEqual(1798, response.Result.Sequence);
+            Assert.AreEqual("tesSUCCESS", response.Result.Meta.TransactionResult);
+        }
+
+        [Test]
+        public async Task ShouldReturnTxNotPayment()
+        {
+            // Arrange
+            var hash = "442DE01B4165E0EE85A48EAE6CB895B426CFDD9F243A6EEFA5AC36292C9DCCED";
+
+            // Act
+
+            var response = await _api.Post(new TxRequest(hash));
+
+            // Assert
+
+            Assert.AreEqual(hash, response.Result.Hash);
+            Assert.AreEqual("AccountSet", response.Result.TransactionType);
+            Assert.IsNull(response.Result.Meta.DeliveredAmount);
+            Assert.AreEqual("12", response.Result.Fee);
+            Assert.AreEqual(178, response.Result.Sequence);
+            Assert.AreEqual("tesSUCCESS", response.Result.Meta.TransactionResult);
         }
     }
 }

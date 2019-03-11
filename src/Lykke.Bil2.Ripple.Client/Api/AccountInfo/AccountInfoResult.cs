@@ -17,16 +17,25 @@ namespace Lykke.Bil2.Ripple.Client.Api.AccountInfo
         /// <summary>
         /// The sequence number of the most-current ledger, which was used when retrieving this information.
         /// The information does not contain any changes from ledgers newer than this one.
+        /// Omitted if ledger_index is provided instead.
         /// </summary>
         /// <value></value>
         [JsonProperty("ledger_current_index")]
-        public long LedgerCurrentIndex { get; set; }
+        public long? LedgerCurrentIndex { get; set; }
+
+        /// <summary>
+        /// The sequence number of the ledger used when retrieving this information.
+        /// The information does not contain any changes from ledgers newer than this one.
+        /// Omitted if ledger_current_index is provided instead.
+        /// </summary>
+        [JsonProperty("ledger_index")]
+        public long? LedgerIndex { get; set; }
 
         /// <summary>
         /// True if this data is from a validated ledger version; if omitted or set to false, this data is not final.
         /// </summary>
         /// <value></value>
         [JsonProperty("validated")]
-        public bool Validated { get; set; }
+        public bool? Validated { get; set; }
     }
 }

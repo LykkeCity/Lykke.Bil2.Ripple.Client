@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Lykke.Bil2.Ripple.Client.Api.AccountInfo;
 using Lykke.Bil2.Ripple.Client.Api.ServerState;
+using Lykke.Bil2.Ripple.Client.Api.Submit;
+using Lykke.Bil2.Ripple.Client.Api.Tx;
 using Refit;
 
 namespace Lykke.Bil2.Ripple.Client
@@ -24,5 +26,23 @@ namespace Lykke.Bil2.Ripple.Client
         /// <exception cref="ApiException">Any HTTP-related error</exception>
         [Post("/")]
         Task<RippleResponse<ServerStateResult>> Post([Body] ServerStateRequest body);
+
+        /// <summary>
+        /// https://developers.ripple.com/submit.html
+        /// </summary>
+        /// <param name="body">Request body.</param>
+        /// <returns>Submit state.</returns>
+        /// <exception cref="ApiException">Any HTTP-related error</exception>
+        [Post("/")]
+        Task<RippleResponse<SubmitResult>> Post([Body] SubmitRequest body);
+
+        /// <summary>
+        /// https://developers.ripple.com/tx.html
+        /// </summary>
+        /// <param name="body">Request body.</param>
+        /// <returns>Transaction data.</returns>
+        /// <exception cref="ApiException">Any HTTP-related error</exception>
+        [Post("/")]
+        Task<RippleResponse<TxResult>> Post([Body] TxRequest body);
     }
 }
