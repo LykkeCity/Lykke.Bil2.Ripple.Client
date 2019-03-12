@@ -1,10 +1,7 @@
 using System;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
 using System.Text;
 using Lykke.Common.Log;
 using Microsoft.Extensions.DependencyInjection;
-using Refit;
 
 namespace Lykke.Bil2.Ripple.Client
 {
@@ -17,6 +14,7 @@ namespace Lykke.Bil2.Ripple.Client
         /// <param name="url">Base URL of node.</param>
         /// <param name="username">Username, if authentication required for JSON RPC, or null</param>
         /// <param name="password">Password, if authentication required for JSON RPC, or null</param>
+        /// <param name="logRequestErrors">If true then request and response are logged in case of error.</param>
         /// <returns></returns>
         public static IServiceCollection AddRippleClient(this IServiceCollection services,
             string url,

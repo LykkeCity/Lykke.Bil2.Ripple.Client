@@ -1,13 +1,9 @@
-using System;
 using System.IO;
 using System.Threading.Tasks;
-using Common.Log;
 using Lykke.Bil2.Ripple.Client.Api.AccountInfo;
 using Lykke.Bil2.Ripple.Client.Api.ServerState;
 using Lykke.Bil2.Ripple.Client.Api.Tx;
-using Lykke.Common.Log;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 

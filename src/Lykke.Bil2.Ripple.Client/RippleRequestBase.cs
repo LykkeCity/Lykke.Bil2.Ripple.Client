@@ -15,7 +15,7 @@ namespace Lykke.Bil2.Ripple.Client
         /// Initializes a new instance of <see cref="RippleRequestBase"/>.
         /// </summary>
         /// <param name="method">Requested rippled method name.</param>
-        /// <param name="@params">Request paramaters.</param>
+        /// <param name="params">Request parameters.</param>
         protected RippleRequestBase(string method, TParams @params) : base(method)
         {
             Params = new []
@@ -36,8 +36,8 @@ namespace Lykke.Bil2.Ripple.Client
     /// </summary>
     public abstract class RippleRequestBase
     {
-       /// <summary>
-        /// Initializes a new instance of <see cref="RippleRequestBaseWithoutParams"/>.
+        /// <summary>
+        /// Initializes a new instance of <see cref="RippleRequestBase"/>.
         /// </summary>
         /// <param name="method">Requested rippled method name.</param>
         protected RippleRequestBase(string method)

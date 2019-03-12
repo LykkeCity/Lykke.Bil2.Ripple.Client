@@ -3,7 +3,6 @@ namespace Lykke.Bil2.Ripple.Client.Api.AccountInfo
     /// <summary>
     /// Account info request.
     /// </summary>
-    /// <typeparam name="AccountInfoRequestParams"></typeparam>
     public class AccountInfoRequest : RippleRequestBase<AccountInfoRequestParams>
     {
         /// <summary>

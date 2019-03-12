@@ -10,7 +10,6 @@ namespace Lykke.Bil2.Ripple.Client.Api.ServerState
         /// <summary>
         /// Unique hash of this ledger version, as hex.
         /// </summary>
-        /// <value></value>
         [JsonProperty("hash")]
         public string Hash { get; set; }
 
@@ -25,5 +24,17 @@ namespace Lykke.Bil2.Ripple.Client.Api.ServerState
         /// </summary>
         [JsonProperty("close_time")]
         public long CloseTime { get; set; }
+
+        /// <summary>
+        /// Base fee, in drops of XRP, for propagating a transaction to the network.
+        /// </summary>
+        [JsonProperty("base_fee")]
+        public long BaseFee { get; set; }
+
+        /// <summary>
+        /// Minimum amount, in drops of XRP, necessary for every account to keep in reserve.
+        /// </summary>
+        [JsonProperty("reserve_base")]
+        public long ReserveBase { get; set; }
     }
 }
