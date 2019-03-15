@@ -3,7 +3,7 @@ namespace Lykke.Bil2.Ripple.Client.Api.AccountInfo
     public class AccountData
     {
         /// <summary>
-        /// he identifying address of this account.
+        /// The identifying address of this account.
         /// </summary>
         public string Account { get; set; }
 

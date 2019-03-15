@@ -1,6 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Lykke.Bil2.Ripple.Client.Api.AccountInfo;
+using Lykke.Bil2.Ripple.Client.Api.AccountLines;
 using Lykke.Bil2.Ripple.Client.Api.ServerState;
 using Lykke.Bil2.Ripple.Client.Api.Tx;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,6 +55,22 @@ namespace Lykke.Bil2.Ripple.Client.Tests
             Assert.AreEqual("success", response.Result.Status);
             Assert.IsNotEmpty(response.Result.AccountData.Balance);
             Assert.IsTrue(long.TryParse(response.Result.AccountData.Balance, out var _));
+        }
+
+        [Test]
+        public async Task ShouldReturnAccountLines()
+        {
+            // Arrange
+
+            // Act
+
+            var response = await _api.Post(new AccountLinesRequest("rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh"));
+
+            // Assert
+
+            Assert.IsNotNull(response.Result);
+            Assert.AreEqual("success", response.Result.Status);
+            Assert.IsNotEmpty(response.Result.Lines);
         }
 
         [Test]

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Lykke.Bil2.Ripple.Client.Api.AccountInfo;
+using Lykke.Bil2.Ripple.Client.Api.AccountLines;
 using Lykke.Bil2.Ripple.Client.Api.ServerState;
 using Lykke.Bil2.Ripple.Client.Api.Submit;
 using Lykke.Bil2.Ripple.Client.Api.Tx;
@@ -17,6 +18,15 @@ namespace Lykke.Bil2.Ripple.Client
         /// <exception cref="ApiException">Any HTTP-related error</exception>
         [Post("/")]
         Task<RippleResponse<AccountInfoResult>> Post([Body] AccountInfoRequest body);
+
+        /// <summary>
+        /// https://developers.ripple.com/account_lines.html
+        /// </summary>
+        /// <param name="body">Request body.</param>
+        /// <returns>Account trustlines.</returns>
+        /// <exception cref="ApiException">Any HTTP-related error</exception>
+        [Post("/")]
+        Task<RippleResponse<AccountLinesResult>> Post([Body] AccountLinesRequest body);
 
         /// <summary>
         /// https://developers.ripple.com/server_state.html
