@@ -21,7 +21,7 @@ namespace Lykke.Bil2.Ripple.Client.Api.AccountInfo
         /// </summary>
         /// <value></value>
         [JsonProperty("ledger_current_index")]
-        public long? LedgerCurrentIndex { get; set; }
+        public uint? LedgerCurrentIndex { get; set; }
 
         /// <summary>
         /// The sequence number of the ledger used when retrieving this information.
@@ -29,7 +29,7 @@ namespace Lykke.Bil2.Ripple.Client.Api.AccountInfo
         /// Omitted if ledger_current_index is provided instead.
         /// </summary>
         [JsonProperty("ledger_index")]
-        public long? LedgerIndex { get; set; }
+        public uint? LedgerIndex { get; set; }
 
         /// <summary>
         /// True if this data is from a validated ledger version; if omitted or set to false, this data is not final.

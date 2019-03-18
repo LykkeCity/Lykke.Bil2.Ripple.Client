@@ -5,7 +5,7 @@ namespace Lykke.Bil2.Ripple.Client.Api.ServerState
     /// <summary>
     /// Ripple ledger (block) info.
     /// </summary>
-    public class Ledger
+    public class LedgerState
     {
         /// <summary>
         /// Unique hash of this ledger version, as hex.
@@ -17,7 +17,7 @@ namespace Lykke.Bil2.Ripple.Client.Api.ServerState
         /// Unique sequence number of this ledger.
         /// </summary>
         [JsonProperty("seq")]
-        public long Seq { get; set; }
+        public uint Seq { get; set; }
 
         /// <summary>
         /// Time this ledger was closed, in seconds since the Ripple Epoch.
@@ -29,12 +29,12 @@ namespace Lykke.Bil2.Ripple.Client.Api.ServerState
         /// Base fee, in drops of XRP, for propagating a transaction to the network.
         /// </summary>
         [JsonProperty("base_fee")]
-        public long BaseFee { get; set; }
+        public uint BaseFee { get; set; }
 
         /// <summary>
         /// Minimum amount, in drops of XRP, necessary for every account to keep in reserve.
         /// </summary>
         [JsonProperty("reserve_base")]
-        public long ReserveBase { get; set; }
+        public uint ReserveBase { get; set; }
     }
 }

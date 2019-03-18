@@ -31,14 +31,14 @@ namespace Lykke.Bil2.Ripple.Client.Api.ServerState
         /// If the most recently validated ledger is available, the response omits this field and includes validated_ledger instead.
         /// </summary>
         [JsonProperty("closed_ledger")]
-        public Ledger ClosedLedger { get; set; }
+        public LedgerState ClosedLedger { get; set; }
 
         /// <summary>
         /// (May be omitted) Information about the most recent fully-validated ledger.
         /// If the most recent validated ledger is not available, the response omits this field and includes closed_ledger instead.
         /// </summary>
         [JsonProperty("validated_ledger")]
-        public Ledger ValidatedLedger { get; set; }
+        public LedgerState ValidatedLedger { get; set; }
 
         /// <summary>
         ///	This is the baseline amount of server load used in transaction cost calculations.
@@ -47,20 +47,20 @@ namespace Lykke.Bil2.Ripple.Client.Api.ServerState
         /// For example, if the load_factor is double the load_base, then transaction costs are doubled.
         /// </summary>
         [JsonProperty("load_base")]
-        public long LoadBase { get; set; }
+        public uint LoadBase { get; set; }
 
         /// <summary>
         /// The load factor the server is currently enforcing.
         /// The ratio between this value and the load_base determines the multiplier for transaction costs.
         /// </summary>
         [JsonProperty("load_factor")]
-        public long LoadFactor { get; set; }
+        public uint LoadFactor { get; set; }
 
         /// <summary>
         /// Returns current transaction cost, in drops.
         /// </summary>
         /// <returns></returns>
-        public long GetFee()
+        public uint GetFee()
         {
             return ((ValidatedLedger?.BaseFee ?? ClosedLedger.BaseFee) * LoadFactor) / (LoadBase != 0 ? LoadBase : 1);
         }

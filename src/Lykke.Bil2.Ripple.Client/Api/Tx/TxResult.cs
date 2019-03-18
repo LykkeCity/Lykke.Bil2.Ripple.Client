@@ -22,12 +22,12 @@ namespace Lykke.Bil2.Ripple.Client.Api.Tx
         /// <summary>
         /// Highest ledger index this transaction can appear in.
         /// </summary>
-        public long? LastLedgerSequence { get; set; }
+        public uint? LastLedgerSequence { get; set; }
 
         /// <summary>
         /// The sequence number, relative to the initiating account, of this transaction.
         /// </summary>
-        public long Sequence { get; set; }
+        public uint Sequence { get; set; }
 
         /// <summary>
         /// The SHA-512 hash of the transaction.
@@ -44,7 +44,7 @@ namespace Lykke.Bil2.Ripple.Client.Api.Tx
         /// The sequence number of the ledger that includes this transaction.
         /// </summary>
         [JsonProperty("ledger_index")]
-        public long? LedgerIndex { get; set; }
+        public uint? LedgerIndex { get; set; }
 
         /// <summary>
         /// True if this data is from a validated ledger version; if omitted or set to false, this data is not final.
@@ -66,6 +66,6 @@ namespace Lykke.Bil2.Ripple.Client.Api.Tx
         /// <summary>
         /// Arbitrary tag that identifies the reason for the payment to the destination, or a hosted recipient to pay.
         /// </summary>
-        public long? DestinationTag { get; set; }
+        public uint? DestinationTag { get; set; }
     }
 }

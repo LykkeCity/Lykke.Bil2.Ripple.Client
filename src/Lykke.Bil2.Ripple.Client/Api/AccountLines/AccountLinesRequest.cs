@@ -17,6 +17,6 @@ namespace Lykke.Bil2.Ripple.Client.Api.AccountLines
         /// <summary>
         /// Limit the number of transactions to retrieve.
         /// </summary>
-        public int Limit { get; } = 400;
+        public uint Limit { get; } = 400;
     }
 }

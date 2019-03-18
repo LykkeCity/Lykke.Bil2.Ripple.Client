@@ -15,12 +15,12 @@ namespace Lykke.Bil2.Ripple.Client.Api.AccountInfo
         /// <summary>
         /// A bit-map of boolean flags enabled for this account.
         /// </summary>
-        public long Flags { get; set; }
+        public uint Flags { get; set; }
 
         /// <summary>
         /// The sequence number of the next valid transaction for this account.
         /// </summary>
-        public long Sequence { get; set; }
+        public uint Sequence { get; set; }
 
         /// <summary>
         /// Returns true if account requires incoming payments to specify a Destination Tag.

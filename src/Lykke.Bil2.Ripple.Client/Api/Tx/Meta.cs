@@ -7,7 +7,7 @@ namespace Lykke.Bil2.Ripple.Client.Api.Tx
         /// <summary>
         /// The transaction's position within the ledger that included it. This is zero-indexed.
         /// </summary>
-        public long? TransactionIndex { get; set; }
+        public uint? TransactionIndex { get; set; }
 
         /// <summary>
         /// A result code indicating whether the transaction succeeded or how it failed.

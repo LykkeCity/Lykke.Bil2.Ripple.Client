@@ -14,7 +14,7 @@ namespace Lykke.Bil2.Ripple.Client.Api.Submit
         /// Numeric code indicating the preliminary result of the transaction, directly correlated to engine_result.
         /// </summary>
         [JsonProperty("engine_result_code")]
-        public int EngineResultCode { get; set; }
+        public long EngineResultCode { get; set; }
 
         /// <summary>
         /// Human-readable explanation of the transaction's preliminary result.

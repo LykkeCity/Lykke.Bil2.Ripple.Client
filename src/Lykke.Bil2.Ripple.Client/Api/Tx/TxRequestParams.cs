@@ -20,7 +20,6 @@ namespace Lykke.Bil2.Ripple.Client.Api.Tx
         /// <summary>
         /// The 256-bit hash of the transaction, as hex.
         /// </summary>
-        /// <value></value>
         [JsonProperty("transaction")]
         public string Transaction { get; }
     }
