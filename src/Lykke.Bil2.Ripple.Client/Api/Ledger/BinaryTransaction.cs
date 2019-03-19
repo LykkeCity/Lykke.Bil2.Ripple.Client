@@ -1,4 +1,7 @@
 using Newtonsoft.Json;
+using Ripple.Core.Hashing;
+using Ripple.Core.Types;
+using Ripple.Core.Util;
 
 namespace Lykke.Bil2.Ripple.Client.Api.Ledger
 {
@@ -18,5 +21,26 @@ namespace Lykke.Bil2.Ripple.Client.Api.Ledger
         /// </summary>
         [JsonProperty("tx_blob")]
         public string TxBlob { get; set; }
+
+        /// <summary>
+        /// Parses binary data to a <see cref="Transaction"/> instance.
+        /// </summary>
+        /// <returns></returns>
+        public Transaction Parse()
+        {
+            var txObject = StObject.FromHex(TxBlob);
+
+            var tx = txObject
+                .ToJson()
+                .ToObject<Transaction>();
+
+            tx.Hash = B16.Encode(Sha512.Half(txObject.ToBytes(), (uint)HashPrefix.TransactionId));
+
+            tx.Metadata = StObject.FromHex(Meta)
+                .ToJson()
+                .ToObject<TransactionMetadata>();
+
+            return tx;
+        }
     }
 }

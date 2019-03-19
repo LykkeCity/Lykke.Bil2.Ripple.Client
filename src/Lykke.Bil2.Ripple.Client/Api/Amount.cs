@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Lykke.Bil2.Ripple.Client.Api.Tx
+namespace Lykke.Bil2.Ripple.Client.Api
 {
     /// <summary>
     /// Currency amount.

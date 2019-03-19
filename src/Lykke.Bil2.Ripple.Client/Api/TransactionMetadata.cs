@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 
-namespace Lykke.Bil2.Ripple.Client.Api.Tx
+namespace Lykke.Bil2.Ripple.Client.Api
 {
-    public class Meta
+    public class TransactionMetadata
     {
         /// <summary>
         /// The transaction's position within the ledger that included it. This is zero-indexed.

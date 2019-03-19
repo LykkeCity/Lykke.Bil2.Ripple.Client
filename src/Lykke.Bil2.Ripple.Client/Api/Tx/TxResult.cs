@@ -2,42 +2,12 @@ using Newtonsoft.Json;
 
 namespace Lykke.Bil2.Ripple.Client.Api.Tx
 {
-    public class TxResult : RippleResponseResultBase
+    public class TxResult : Transaction, IRippleResponseResult
     {
-        /// <summary>
-        /// The unique address of the account that initiated the transaction.
-        /// </summary>
-        public string Account { get; set; }
-
-        /// <summary>
-        /// The type of transaction.
-        /// </summary>
-        public string TransactionType { get; set; }
-
-        /// <summary>
-        /// Integer amount of XRP, in drops, to be destroyed as a cost for distributing this transaction to the network.
-        /// </summary>
-        public string Fee { get; set; }
-
-        /// <summary>
-        /// Highest ledger index this transaction can appear in.
-        /// </summary>
-        public uint? LastLedgerSequence { get; set; }
-
-        /// <summary>
-        /// The sequence number, relative to the initiating account, of this transaction.
-        /// </summary>
-        public uint Sequence { get; set; }
-
-        /// <summary>
-        /// The SHA-512 hash of the transaction.
-        /// </summary>
-        [JsonProperty("hash")]
-        public string Hash { get; set; }
-
         /// <summary>
         /// Transaction timestamp in seconds since the Ripple Epoch.
         /// </summary>
+        [JsonProperty("date")]
         public long? Date { get; set; }
 
         /// <summary>
@@ -53,19 +23,18 @@ namespace Lykke.Bil2.Ripple.Client.Api.Tx
         public bool? Validated { get; set; }
 
         /// <summary>
-        /// Various metadata about the transaction.
+        /// See <see cref="IRippleResponseResult.Request"/>.
         /// </summary>
-        [JsonProperty("meta")]
-        public Meta Meta { get; set;}
+        public string Status { get; set; }
 
         /// <summary>
-        /// The unique address of the account receiving the payment.
+        /// See <see cref="IRippleResponseResult.Error"/>
         /// </summary>
-        public string Destination { get; set; }
+        public string Error { get; set; }
 
         /// <summary>
-        /// Arbitrary tag that identifies the reason for the payment to the destination, or a hosted recipient to pay.
+        /// See <see cref="IRippleResponseResult.Request"/>
         /// </summary>
-        public uint? DestinationTag { get; set; }
+        public object Request { get; set; }
     }
 }

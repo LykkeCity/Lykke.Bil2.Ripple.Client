@@ -1,0 +1,16 @@
+namespace Lykke.Bil2.Ripple.Client
+{
+    public static class RippleResponseResultExtensions
+    {
+        /// <summary>
+        /// Throws <see cref="RippleResponseResultErrorException"/> if <see cref="IRippleResponseResult.Status"/> indicates error.
+        /// </summary>
+        public static void ThrowIfError(this IRippleResponseResult self)
+        {
+            if (self.Error == "error")
+            {
+                throw new RippleResponseResultErrorException(self.Error, self.Request);
+            }
+        }
+    }
+}
