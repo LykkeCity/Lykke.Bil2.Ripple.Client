@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Lykke.Bil2.Ripple.Client.Api.Ledger
 {
-    public class LedgerResult : RippleResponseResultBase
+    public class BinaryLedgerWithTransactionsResult : RippleResponseResultBase
     {
         /// <summary>
         /// Unique identifying hash of the entire ledger.
@@ -20,6 +20,13 @@ namespace Lykke.Bil2.Ripple.Client.Api.Ledger
         /// Header data of this ledger.
         /// </summary>
         [JsonProperty("ledger")]
-        public Header Ledger { get; set; }
+        public BinaryLedgerHeader Ledger { get; set; }
+
+        /// <summary>
+        /// True if this data is from a validated ledger version; if omitted or set to false, this data is not final.
+        /// </summary>
+        /// <value></value>
+        [JsonProperty("validated")]
+        public bool? Validated { get; set; }
     }
 }

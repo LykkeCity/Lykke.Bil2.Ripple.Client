@@ -33,10 +33,10 @@ namespace Lykke.Bil2.Ripple.Client
         /// https://developers.ripple.com/ledger.html
         /// </summary>
         /// <param name="body">Request body.</param>
-        /// <returns>Ledger data.</returns>
+        /// <returns>Ledger data in binary (HEX) format.</returns>
         /// <exception cref="ApiException">Any HTTP-related error</exception>
         [Post("/")]
-        Task<RippleResponse<LedgerResult>> Post([Body] LedgerRequest body);
+        Task<RippleResponse<BinaryLedgerWithTransactionsResult>> Post([Body] BinaryLedgerWithTransactionsRequest body);
 
         /// <summary>
         /// https://developers.ripple.com/server_state.html
