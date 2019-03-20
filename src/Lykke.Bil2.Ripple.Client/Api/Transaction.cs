@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Lykke.Bil2.Ripple.Client.Api
 {
+    /// <summary>
+    /// Transaction object.
+    /// </summary>
     public class Transaction
     {
         /// <summary>
