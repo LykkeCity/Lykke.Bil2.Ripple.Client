@@ -7,6 +7,14 @@
     <Authors>Lykke</Authors>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.2\Lykke.Bil2.Ripple.Client.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.2\Lykke.Bil2.Ripple.Client.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Lykke.HttpClientGenerator" Version="2.4.1" />
     <PackageReference Include="Refit" Version="4.6.90" />
