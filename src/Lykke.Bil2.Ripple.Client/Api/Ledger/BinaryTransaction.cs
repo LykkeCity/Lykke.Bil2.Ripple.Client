@@ -6,7 +6,7 @@ using Ripple.Core.Util;
 namespace Lykke.Bil2.Ripple.Client.Api.Ledger
 {
     /// <summary>
-    /// Transaction data.
+    /// Transaction data in binary (HEX) format.
     /// </summary>
     public class BinaryTransaction
     {

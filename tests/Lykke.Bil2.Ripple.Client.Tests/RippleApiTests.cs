@@ -1,5 +1,7 @@
+using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
+using Common;
 using Lykke.Bil2.Ripple.Client.Api.AccountInfo;
 using Lykke.Bil2.Ripple.Client.Api.AccountLines;
 using Lykke.Bil2.Ripple.Client.Api.Ledger;
@@ -8,6 +10,7 @@ using Lykke.Bil2.Ripple.Client.Api.Tx;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using Ripple.Core.Util;
 
 namespace Lykke.Bil2.Ripple.Client.Tests
 {
@@ -168,8 +171,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
             // Act
 
             var response = await _api.Post(new BinaryLedgerWithTransactionsRequest(17860911));
-            var header = response.Result.Ledger.Parse();
-            var tx0 = response.Result.Ledger.Transactions[0].Parse();
+            var ledger = response.Result.Ledger.Parse();
 
             // Assert
 
@@ -177,12 +179,13 @@ namespace Lykke.Bil2.Ripple.Client.Tests
             Assert.AreEqual("success", response.Result.Status);
             Assert.AreEqual(17860911, response.Result.LedgerIndex);
             Assert.AreEqual("7B49D99C332D7D8D10AB1BE79D04076E4284D521FD5E6CA9034A296E870A40F4", response.Result.LedgerHash);
-            Assert.AreEqual("9ECB6BF942D0B93D16DF96FAEB22E3FC852DDEEDB5C25AC76BF8989ABF47FA45", header.ParentHash);
+            Assert.AreEqual("9ECB6BF942D0B93D16DF96FAEB22E3FC852DDEEDB5C25AC76BF8989ABF47FA45", ledger.ParentHash);
             Assert.IsNotEmpty(response.Result.Ledger.Transactions);
-            Assert.AreEqual("6E1FA8671649B117D13AC3C14BA653AC29FAA3533F0F5884E868BB9B9553FE81", tx0.Hash);
-            Assert.AreEqual(772, tx0.DestinationTag);
-            Assert.AreEqual(2, tx0.Metadata.TransactionIndex);
-            Assert.AreEqual("tesSUCCESS", tx0.Metadata.TransactionResult);
+            Assert.IsNotEmpty(ledger.Transactions);
+            Assert.AreEqual("6E1FA8671649B117D13AC3C14BA653AC29FAA3533F0F5884E868BB9B9553FE81", ledger.Transactions[0].Hash);
+            Assert.AreEqual(772, ledger.Transactions[0].DestinationTag);
+            Assert.AreEqual(2, ledger.Transactions[0].Metadata.TransactionIndex);
+            Assert.AreEqual("tesSUCCESS", ledger.Transactions[0].Metadata.TransactionResult);
         }
     }
 }

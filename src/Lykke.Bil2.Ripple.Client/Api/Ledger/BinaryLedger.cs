@@ -1,3 +1,4 @@
+using System.Linq;
 using Newtonsoft.Json;
 using Ripple.Core.Binary;
 using Ripple.Core.Ledger;
@@ -6,9 +7,9 @@ using Ripple.Core.Types;
 namespace Lykke.Bil2.Ripple.Client.Api.Ledger
 {
     /// <summary>
-    /// Header data of this ledger.
+    /// Ledger data in binary (HEX) format.
     /// </summary>
-    public class BinaryLedgerHeader
+    public class BinaryLedger
     {
         /// <summary>
         /// Whether or not this ledger has been closed.
@@ -29,19 +30,22 @@ namespace Lykke.Bil2.Ripple.Client.Api.Ledger
         public BinaryTransaction[] Transactions { get; set; }
 
         /// <summary>
-        /// Parses binary data to a <see cref="Header"/> instance.
+        /// Parses binary data to a <see cref="Ledger"/> instance.
         /// </summary>
         /// <returns></returns>
-        public Header Parse()
+        public Ledger Parse(bool headerOnly = false)
         {
             var header = LedgerHeader.FromReader(new StReader(new BufferParser(LedgerData)));
 
-            return new Header
+            return new Ledger
             {
                 CloseTime = header.CloseTime.Value,
                 ParentCloseTime = header.ParentCloseTime.Value,
                 ParentHash = header.ParentHash.ToString(),
-                TotalCoins = header.TotalDrops.Value
+                TotalCoins = header.TotalDrops.Value,
+                Transactions = !headerOnly
+                    ? Transactions.Select(x => x.Parse()).ToArray()
+                    : null
             };
         }
     }

@@ -17,10 +17,10 @@ namespace Lykke.Bil2.Ripple.Client.Api.Ledger
         public uint LedgerIndex { get; set; }
 
         /// <summary>
-        /// Header data of this ledger.
+        /// Ledger data.
         /// </summary>
         [JsonProperty("ledger")]
-        public BinaryLedgerHeader Ledger { get; set; }
+        public BinaryLedger Ledger { get; set; }
 
         /// <summary>
         /// True if this data is from a validated ledger version; if omitted or set to false, this data is not final.

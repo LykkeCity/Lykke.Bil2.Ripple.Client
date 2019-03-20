@@ -2,7 +2,10 @@ using Newtonsoft.Json;
 
 namespace Lykke.Bil2.Ripple.Client.Api.Ledger
 {
-    public class Header
+    /// <summary>
+    /// Ledger data.
+    /// </summary>
+    public class Ledger
     {
         /// <summary>
         /// The time this ledger was closed, in seconds since the Ripple Epoch.
@@ -28,5 +31,11 @@ namespace Lykke.Bil2.Ripple.Client.Api.Ledger
         /// </summary>
         [JsonProperty("total_coins")]
         public ulong TotalCoins { get; set; }
+
+        /// <summary>
+        /// Transactions applied in this ledger version.
+        /// </summary>
+        [JsonProperty("transactions")]
+        public Transaction[] Transactions { get; set; }
     }
 }
