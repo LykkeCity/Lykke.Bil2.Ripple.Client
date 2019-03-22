@@ -1,6 +1,8 @@
 using System.Globalization;
 using System;
+using Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Lykke.Bil2.Ripple.Client.Api
 {
@@ -17,7 +19,13 @@ namespace Lykke.Bil2.Ripple.Client.Api
                     return null;
 
                 case JsonToken.StartObject:
-                    return serializer.Deserialize<Amount>(reader);
+                    var amount = JObject.Load(reader);
+                    return new Amount
+                    {
+                        Currency = amount["currency"].ToObject<string>(),
+                        Counterparty = amount["issuer"].ToObject<string>(),
+                        Value = amount["value"].ToObject<string>()
+                    };
 
                 case JsonToken.String:
                     var drops = decimal.Parse((string)serializer.Deserialize(reader), CultureInfo.InvariantCulture);
@@ -38,10 +46,25 @@ namespace Lykke.Bil2.Ripple.Client.Api
             // XRP formatted as integer string (in drops).
             // All other currencies formatted as Amount object.
 
-            if (value.Currency == "XRP")
-                serializer.Serialize(writer, decimal.ToInt64(decimal.Parse(value.Value, CultureInfo.InvariantCulture) * 1_000_000).ToString("D"));
+            if (value == null)
+            {
+                writer.WriteNull();
+            }
+            else if (value.Currency == "XRP")
+            {
+                writer.WriteValue(decimal.ToInt64(decimal.Parse(value.Value, CultureInfo.InvariantCulture) * 1_000_000).ToString("D"));
+            }
             else
-                serializer.Serialize(writer, value);
+            {
+                writer.WriteStartObject();
+                writer.WritePropertyName("currency");
+                writer.WriteValue(value.Currency);
+                writer.WritePropertyName("issuer");
+                writer.WriteValue(value.Counterparty);
+                writer.WritePropertyName("value");
+                writer.WriteValue(value.Value);
+                writer.WriteEndObject();
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Lykke.Bil2.Ripple.Client.Api
         /// Unique account address of the entity issuing the currency.
         /// </summary>
         [JsonProperty("issuer")]
-        public string Issuer { get; set; }
+        public string Counterparty { get; set; }
 
         /// <summary>
         /// Quoted decimal representation of the amount of currency.

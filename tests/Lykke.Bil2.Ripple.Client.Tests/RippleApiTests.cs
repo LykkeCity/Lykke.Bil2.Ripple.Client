@@ -164,7 +164,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
         }
 
         [Test]
-        public async Task ShouldReturnLedger_ByIndex()
+        public async Task ShouldReturnLedgerByIndex()
         {
             // Arrange
 

@@ -1,6 +1,9 @@
-namespace Lykke.Bil2.Ripple.Client.Api.AccountInfo
+namespace Lykke.Bil2.Ripple.Client.Api
 {
-    public class AccountData
+    /// <summary>
+    /// Describes a single account, its settings, and XRP balance.
+    /// </summary>
+    public class AccountRoot
     {
         /// <summary>
         /// The identifying address of this account.
@@ -16,6 +19,11 @@ namespace Lykke.Bil2.Ripple.Client.Api.AccountInfo
         /// A bit-map of boolean flags enabled for this account.
         /// </summary>
         public uint Flags { get; set; }
+
+        /// <summary>
+        /// The number of objects this account owns in the ledger, which contributes to its owner reserve.
+        /// </summary>
+        public uint OwnerCount { get; set; }
 
         /// <summary>
         /// The sequence number of the next valid transaction for this account.

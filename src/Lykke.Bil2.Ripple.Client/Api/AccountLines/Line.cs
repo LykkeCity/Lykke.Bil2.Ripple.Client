@@ -1,5 +1,8 @@
 namespace Lykke.Bil2.Ripple.Client.Api.AccountLines
 {
+    /// <summary>
+    /// Trust line.
+    /// </summary>
     public class Line
     {
         /// <summary>

@@ -12,7 +12,7 @@ namespace Lykke.Bil2.Ripple.Client.Api.AccountInfo
         /// </summary>
         /// <value></value>
         [JsonProperty("account_data")]
-        public AccountData AccountData { get; set; }
+        public AccountRoot AccountData { get; set; }
 
         /// <summary>
         /// The sequence number of the most-current ledger, which was used when retrieving this information.

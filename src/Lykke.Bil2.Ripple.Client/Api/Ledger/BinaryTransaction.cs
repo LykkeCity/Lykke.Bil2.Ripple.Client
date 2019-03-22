@@ -36,6 +36,9 @@ namespace Lykke.Bil2.Ripple.Client.Api.Ledger
 
             tx.Hash = B16.Encode(Sha512.Half(txObject.ToBytes(), (uint)HashPrefix.TransactionId));
 
+            var mt = StObject.FromHex(Meta)
+                            .ToJson();
+
             tx.Metadata = StObject.FromHex(Meta)
                 .ToJson()
                 .ToObject<TransactionMetadata>();
