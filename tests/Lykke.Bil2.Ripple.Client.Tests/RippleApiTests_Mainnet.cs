@@ -42,7 +42,9 @@ namespace Lykke.Bil2.Ripple.Client.Tests
 
             // Assert
 
-            
+            Assert.IsNotEmpty(balanceChanges);
+            Assert.True(balanceChanges.All(x => x.Value.Any()));
+            Assert.True(balanceChanges.All(x => x.Value.Length == x.Value.GroupBy(y => new { y.Counterparty, y.Currency }).Count()));
         }
     }
 }

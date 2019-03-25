@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Lykke.Bil2.Ripple.Client.Api.Tx
 {
+    /// <summary>
+    /// Represents rippled API request result.
+    /// </summary>
     public class TxResult : Transaction, IRippleResponseResult
     {
         /// <summary>

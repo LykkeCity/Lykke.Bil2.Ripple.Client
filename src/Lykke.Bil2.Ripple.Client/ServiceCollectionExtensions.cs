@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Lykke.Bil2.Ripple.Client
 {
+    /// <summary>
+    /// Extensions for <see cref="IServiceCollection"/>
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
         /// <summary>

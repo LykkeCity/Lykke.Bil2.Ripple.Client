@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Lykke.Bil2.Ripple.Client.Api.Ledger
 {
+    /// <summary>
+    /// Result of Ledger request in binary form.
+    /// </summary>
     public class BinaryLedgerWithTransactionsResult : RippleResponseResultBase
     {
         /// <summary>

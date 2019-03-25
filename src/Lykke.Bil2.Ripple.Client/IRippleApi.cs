@@ -9,6 +9,9 @@ using Refit;
 
 namespace Lykke.Bil2.Ripple.Client
 {
+    /// <summary>
+    /// Represents rippled API.
+    /// </summary>
     public interface IRippleApi
     {
         /// <summary>

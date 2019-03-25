@@ -1,5 +1,8 @@
 namespace Lykke.Bil2.Ripple.Client
 {
+    /// <summary>
+    /// Extensions for <see cref="IRippleResponseResult"/>
+    /// </summary>
     public static class RippleResponseResultExtensions
     {
         /// <summary>

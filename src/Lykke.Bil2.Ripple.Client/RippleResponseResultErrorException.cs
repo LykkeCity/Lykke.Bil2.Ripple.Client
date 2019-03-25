@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace Lykke.Bil2.Ripple.Client
 {
+    /// <summary>
+    /// Thrown by <see cref="RippleResponseResultExtensions.ThrowIfError"/> method if rippled API request result indicates error.
+    /// </summary>
     public class RippleResponseResultErrorException : Exception
     {
         /// <summary>

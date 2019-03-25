@@ -6,8 +6,20 @@ using Newtonsoft.Json.Linq;
 
 namespace Lykke.Bil2.Ripple.Client.Api
 {
+    /// <summary>
+    /// JSON converter for <see cref="Amount"/> object.
+    /// </summary>
     public class AmountJsonConverter : JsonConverter<Amount>
     {
+        /// <summary>
+        /// Converts XRP drops string or issued currency Amount JSON object to an instance of <see cref="Amount"/> class.
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="objectType"></param>
+        /// <param name="existingValue"></param>
+        /// <param name="hasExistingValue"></param>
+        /// <param name="serializer"></param>
+        /// <returns></returns>
         public override Amount ReadJson(JsonReader reader, Type objectType, Amount existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             // XRP formatted as integer string (in drops).
@@ -28,8 +40,9 @@ namespace Lykke.Bil2.Ripple.Client.Api
                     };
 
                 case JsonToken.String:
-                    var drops = decimal.Parse((string)serializer.Deserialize(reader), CultureInfo.InvariantCulture);
-                    var coins = drops / 1_000_000;
+                    var value = JToken.Load(reader);
+                    var drops = decimal.Parse(value.ToObject<string>(), CultureInfo.InvariantCulture);
+                    var coins = drops / 1_000_000M;
                     return new Amount
                     {
                         Currency = "XRP",
@@ -41,6 +54,12 @@ namespace Lykke.Bil2.Ripple.Client.Api
             }
         }
 
+        /// <summary>
+        /// Writes an instance of <see cref="Amount"/> class to JSON as XRP drops string or Amount object for issued currencies.
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <param name="value"></param>
+        /// <param name="serializer"></param>
         public override void WriteJson(JsonWriter writer, Amount value, JsonSerializer serializer)
         {
             // XRP formatted as integer string (in drops).
@@ -52,7 +71,7 @@ namespace Lykke.Bil2.Ripple.Client.Api
             }
             else if (value.Currency == "XRP")
             {
-                writer.WriteValue(decimal.ToInt64(decimal.Parse(value.Value, CultureInfo.InvariantCulture) * 1_000_000).ToString("D"));
+                writer.WriteValue(decimal.ToInt64(decimal.Parse(value.Value, CultureInfo.InvariantCulture) * 1_000_000M).ToString("D"));
             }
             else
             {

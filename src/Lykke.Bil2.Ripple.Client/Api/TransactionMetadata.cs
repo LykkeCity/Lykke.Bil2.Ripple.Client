@@ -1,9 +1,11 @@
+using System;
 using System.Xml.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Globalization;
 
 namespace Lykke.Bil2.Ripple.Client.Api
 {
@@ -56,12 +58,13 @@ namespace Lykke.Bil2.Ripple.Client.Api
                             var previousAccount = entry.PreviousFields?.ToObject<AccountRoot>();
                             var finalAccount = entry.FinalFields?.ToObject<AccountRoot>();
                             var account = finalAccount ?? newAccount;
-                            var accountBalanceChange =
-                                previousAccount?.Balance != null && finalAccount?.Balance != null ? long.Parse(finalAccount.Balance) - long.Parse(previousAccount.Balance) :
-                                newAccount?.Balance != null ? long.Parse(newAccount.Balance) :
-                                0L;
+                            var accountBalanceChange = previousAccount?.Balance != null && finalAccount?.Balance != null
+                                ? decimal.Parse(finalAccount.Balance, CultureInfo.InvariantCulture) - decimal.Parse(previousAccount.Balance, CultureInfo.InvariantCulture)
+                                : newAccount?.Balance != null
+                                    ? decimal.Parse(newAccount.Balance, CultureInfo.InvariantCulture)
+                                    : 0M;
 
-                            return accountBalanceChange == 0L ?
+                            return accountBalanceChange == 0M ?
                                 new (string, Amount)[] { } :
                                 new (string, Amount)[]
                                 {
@@ -70,7 +73,7 @@ namespace Lykke.Bil2.Ripple.Client.Api
                                         new Amount
                                         {
                                             Currency = "XRP",
-                                            Value =  accountBalanceChange.ToString("D")
+                                            Value =  (accountBalanceChange / 1_000_000M).ToString("F6", CultureInfo.InvariantCulture)
                                         }
                                     )
                                 };
@@ -80,10 +83,11 @@ namespace Lykke.Bil2.Ripple.Client.Api
                             var previousState = entry.PreviousFields?.ToObject<RippleState>();
                             var finalState = entry.FinalFields?.ToObject<RippleState>();
                             var state = finalState ?? newState;
-                            var stateBalanceChange =
-                                previousState?.Balance != null && finalState?.Balance != null ? decimal.Parse(finalState.Balance.Value) - decimal.Parse(previousState.Balance.Value) :
-                                newState?.Balance != null ? decimal.Parse(newState.Balance.Value) :
-                                0m;
+                            var stateBalanceChange = previousState?.Balance != null && finalState?.Balance != null
+                                ? decimal.Parse(finalState.Balance.Value, CultureInfo.InvariantCulture) - decimal.Parse(previousState.Balance.Value, CultureInfo.InvariantCulture)
+                                :   newState?.Balance != null
+                                    ? decimal.Parse(newState.Balance.Value, CultureInfo.InvariantCulture)
+                                    : 0m;
 
                             if (stateBalanceChange == 0m)
                             {
@@ -185,19 +189,64 @@ namespace Lykke.Bil2.Ripple.Client.Api
         public enum LedgerEntryType
         {
             /// <summary>
-            /// The settings, XRP balance, and other metadata for one account.
+            /// Indicates that this is an AccountRoot object.
             /// </summary>
             AccountRoot = 0x0061,
 
             /// <summary>
-            /// Links two accounts, tracking the balance of one currency between them.
-            /// The concept of a trust line is an abstraction of this object type.
+            /// Indicates that this object describes the status of amendments to the XRP Ledger.
+            /// </summary>
+            Amendments = 0x0066,
+
+            /// <summary>
+            /// Indicates that this object is a Check object.
+            /// </summary>
+            Check = 0x0043,
+
+            /// <summary>
+            /// Indicates that this is a DepositPreauth object.
+            /// </summary>
+            DepositPreauth = 0x0070,
+
+            /// <summary>
+            /// Indicates that this object is part of a Directory.
+            /// </summary>
+            DirectoryNode = 0x0064,
+
+            /// <summary>
+            /// Indicates that this object is an Escrow object.
+            /// </summary>
+            Escrow = 0x0075,
+
+            /// <summary>
+            /// Indicates that this object contains the ledger's fee settings.
+            /// </summary>
+            FeeSettings = 0x0073,
+
+            /// <summary>
+            /// Indicates that this object is a list of ledger hashes.
+            /// </summary>
+            LedgerHashes = 0x0068,
+
+            /// <summary>
+            /// Indicates that this object describes an order to trade currency.
+            /// </summary>
+            Offer = 0x006F,
+
+            /// <summary>
+            /// Indicates that this object is a payment channel object.
+            /// </summary>
+            PayChannel = 0x0078,
+
+            /// <summary>
+            /// Indicates that this object is a RippleState object.
             /// </summary>
             RippleState = 0x0072,
 
-            Offer,
-
-            DirectoryNode
+            /// <summary>
+            /// Indicates that this object is a SignerList object.
+            /// </summary>
+            SignerList = 0x0053
         }
     }
 }

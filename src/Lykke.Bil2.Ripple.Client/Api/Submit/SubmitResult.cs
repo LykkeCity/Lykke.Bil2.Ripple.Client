@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Lykke.Bil2.Ripple.Client.Api.Submit
 {
+    /// <summary>
+    /// Result of Submit request.
+    /// </summary>
     public class SubmitResult : RippleResponseResultBase
     {
         /// <summary>
