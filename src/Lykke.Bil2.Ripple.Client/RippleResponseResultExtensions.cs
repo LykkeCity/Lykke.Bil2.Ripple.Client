@@ -10,7 +10,7 @@ namespace Lykke.Bil2.Ripple.Client
         /// </summary>
         public static void ThrowIfError(this IRippleResponseResult self)
         {
-            if (self.Error == "error")
+            if (self.Status == "error")
             {
                 throw new RippleResponseResultErrorException(self.Error, self.Request);
             }
