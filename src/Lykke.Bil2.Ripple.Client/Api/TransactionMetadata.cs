@@ -103,7 +103,7 @@ namespace Lykke.Bil2.Ripple.Client.Api
                                 {
                                     Currency = state.Balance.Currency,
                                     Counterparty = state.HighLimit.Counterparty,
-                                    Value = stateBalanceChange.ToString("F")
+                                    Value = stateBalanceChange.ToString("F", CultureInfo.InvariantCulture)
                                 }
                             );
 
@@ -114,7 +114,7 @@ namespace Lykke.Bil2.Ripple.Client.Api
                                 {
                                     Currency = state.Balance.Currency,
                                     Counterparty = state.LowLimit.Counterparty,
-                                    Value = decimal.Negate(stateBalanceChange).ToString("F")
+                                    Value = decimal.Negate(stateBalanceChange).ToString("F", CultureInfo.InvariantCulture)
                                 }
                             );
 
