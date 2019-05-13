@@ -187,5 +187,23 @@ namespace Lykke.Bil2.Ripple.Client.Tests
             Assert.AreEqual(2, ledger.Transactions[0].Metadata.TransactionIndex);
             Assert.AreEqual("tesSUCCESS", ledger.Transactions[0].Metadata.TransactionResult);
         }
+
+
+        [Test]
+        public async Task ShouldReturnLedgerByIndex_19231334()
+        {
+            // Arrange
+
+            // Act
+
+            var response = await _api.Post(new BinaryLedgerWithTransactionsRequest(19231334));
+            var ledger = response.Result.Ledger.Parse();
+
+            // Assert
+
+            Assert.IsNotNull(response.Result);
+            Assert.AreEqual("success", response.Result.Status);
+            Assert.AreEqual(19231334, response.Result.LedgerIndex);
+        }
     }
 }

@@ -39,12 +39,11 @@ namespace Lykke.Bil2.Ripple.Client.Api.Ledger
 
             return new Ledger
             {
-                CloseTime = header.CloseTime.Value,
-                ParentCloseTime = header.ParentCloseTime.Value,
-                ParentHash = header.ParentHash.ToString(),
-                TotalCoins = header.TotalDrops.Value,
+                CloseTime = header.CloseTime?.Value,
+                ParentCloseTime = header.ParentCloseTime?.Value,
+                ParentHash = header.ParentHash?.ToString(),
                 Transactions = !headerOnly
-                    ? Transactions.Select(x => x.Parse()).ToArray()
+                    ? Transactions?.Select(x => x.Parse()).ToArray()
                     : null
             };
         }
