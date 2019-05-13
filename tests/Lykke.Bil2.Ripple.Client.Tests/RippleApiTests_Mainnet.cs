@@ -30,6 +30,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
         }
 
         [Test]
+        [Ignore("txnNotFound")]
         public async Task ShouldParseBalanceChanges()
         {
             // Arrange
