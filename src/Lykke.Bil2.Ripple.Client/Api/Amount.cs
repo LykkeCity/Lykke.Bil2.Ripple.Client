@@ -1,3 +1,4 @@
+using Lykke.Numerics;
 using Newtonsoft.Json;
 
 namespace Lykke.Bil2.Ripple.Client.Api
@@ -24,6 +25,6 @@ namespace Lykke.Bil2.Ripple.Client.Api
         /// Quoted decimal representation of the amount of currency.
         /// </summary>
         [JsonProperty("value")]
-        public string Value { get; set; }
+        public Money Value { get; set; }
     }
 }

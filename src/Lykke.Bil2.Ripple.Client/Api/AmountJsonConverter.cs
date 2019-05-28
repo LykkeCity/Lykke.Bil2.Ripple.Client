@@ -1,8 +1,10 @@
+using System.Numerics;
 using System.Globalization;
 using System;
 using Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Lykke.Numerics;
 
 namespace Lykke.Bil2.Ripple.Client.Api
 {
@@ -32,21 +34,38 @@ namespace Lykke.Bil2.Ripple.Client.Api
 
                 case JsonToken.StartObject:
                     var amount = JObject.Load(reader);
+                    var valueString = amount["value"].ToObject<string>();
+                    Money money;
+                    if (decimal.TryParse(valueString, NumberStyles.Any, CultureInfo.InvariantCulture, out var valueDecimal))
+                    {
+                        money = Money.Create(valueDecimal);
+                    }
+                    else if (BigInteger.TryParse(valueString, NumberStyles.Any, CultureInfo.InvariantCulture, out var valueBigInteger))
+                    {
+                        money = Money.Create(valueBigInteger, 0);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException($"Amount format {valueString} not supported");
+                    }
                     return new Amount
                     {
                         Currency = amount["currency"].ToObject<string>(),
                         Counterparty = amount["issuer"].ToObject<string>(),
-                        Value = amount["value"].ToObject<string>()
+                        Value = money
                     };
 
                 case JsonToken.String:
-                    var value = JToken.Load(reader);
-                    var drops = decimal.Parse(value.ToObject<string>(), CultureInfo.InvariantCulture);
-                    var coins = drops / 1_000_000M;
+                    var value = JToken.Load(reader).ToObject<string>();
+                    if (value == "unavailable")
+                    {
+                        return null;
+                    }
+                    var drops = BigInteger.Parse(value, NumberStyles.Any, CultureInfo.InvariantCulture);
                     return new Amount
                     {
                         Currency = "XRP",
-                        Value = coins.ToString("F6", CultureInfo.InvariantCulture)
+                        Value = new Money(drops, 6)
                     };
 
                 default:
@@ -71,7 +90,7 @@ namespace Lykke.Bil2.Ripple.Client.Api
             }
             else if (value.Currency == "XRP")
             {
-                writer.WriteValue(decimal.ToInt64(decimal.Parse(value.Value, CultureInfo.InvariantCulture) * 1_000_000M).ToString("D"));
+                writer.WriteValue(Money.Denominate(value.Value, 6).Significand.ToString("D"));
             }
             else
             {
@@ -81,7 +100,7 @@ namespace Lykke.Bil2.Ripple.Client.Api
                 writer.WritePropertyName("issuer");
                 writer.WriteValue(value.Counterparty);
                 writer.WritePropertyName("value");
-                writer.WriteValue(value.Value);
+                writer.WriteRawValue(JsonConvert.SerializeObject(value.Value));
                 writer.WriteEndObject();
             }
         }

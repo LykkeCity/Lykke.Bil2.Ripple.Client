@@ -1,7 +1,5 @@
-using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
-using Common;
 using Lykke.Bil2.Ripple.Client.Api.AccountInfo;
 using Lykke.Bil2.Ripple.Client.Api.AccountLines;
 using Lykke.Bil2.Ripple.Client.Api.Ledger;
@@ -10,7 +8,6 @@ using Lykke.Bil2.Ripple.Client.Api.Tx;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Ripple.Core.Util;
 
 namespace Lykke.Bil2.Ripple.Client.Tests
 {
@@ -137,7 +134,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
 
             Assert.AreEqual(hash, response.Result.Hash);
             Assert.AreEqual("Payment", response.Result.TransactionType);
-            Assert.AreEqual("0.290000", response.Result.Metadata.DeliveredAmount.Value);
+            Assert.True(0.29m == response.Result.Metadata.DeliveredAmount.Value);
             Assert.AreEqual("12", response.Result.Fee);
             Assert.AreEqual(1798, response.Result.Sequence);
             Assert.AreEqual("tesSUCCESS", response.Result.Metadata.TransactionResult);

@@ -1,6 +1,7 @@
 using Lykke.Bil2.Ripple.Client.Api;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using Lykke.Numerics;
 
 namespace Lykke.Bil2.Ripple.Client.Tests
 {
@@ -13,7 +14,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
             var amount = new Amount
             {
                 Currency = "XRP",
-                Value = "123456"
+                Value = Money.Create(123.456m)
             };
 
             // Act
@@ -24,7 +25,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
 
             Assert.AreEqual
             (
-                "\"123456000000\"",
+                "\"123456000\"",
                 json
             );
         }
@@ -38,7 +39,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
             {
                 Currency = "USD",
                 Counterparty = "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
-                Value = "123.456"
+                Value = Money.Create(123.456m)
             };
 
             // Act
@@ -84,7 +85,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
             // Assert
 
             Assert.AreEqual("XRP", amount.Currency);
-            Assert.AreEqual("123.456000", amount.Value);
+            Assert.True(123.456m == amount.Value);
         }
 
         [Test]
@@ -100,7 +101,7 @@ namespace Lykke.Bil2.Ripple.Client.Tests
 
             Assert.AreEqual("USD", amount.Currency);
             Assert.AreEqual("rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh", amount.Counterparty);
-            Assert.AreEqual("123.456", amount.Value);
+            Assert.True(123.456m == amount.Value);
         }
 
         [Test]

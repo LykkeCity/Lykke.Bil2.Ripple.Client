@@ -1,3 +1,4 @@
+using System.Numerics;
 using System;
 using System.Xml.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -6,6 +7,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using Lykke.Numerics;
 
 namespace Lykke.Bil2.Ripple.Client.Api
 {
@@ -59,12 +61,12 @@ namespace Lykke.Bil2.Ripple.Client.Api
                             var finalAccount = entry.FinalFields?.ToObject<AccountRoot>();
                             var account = finalAccount ?? newAccount;
                             var accountBalanceChange = previousAccount?.Balance != null && finalAccount?.Balance != null
-                                ? decimal.Parse(finalAccount.Balance, CultureInfo.InvariantCulture) - decimal.Parse(previousAccount.Balance, CultureInfo.InvariantCulture)
+                                ? BigInteger.Parse(finalAccount.Balance) - BigInteger.Parse(previousAccount.Balance)
                                 : newAccount?.Balance != null
-                                    ? decimal.Parse(newAccount.Balance, CultureInfo.InvariantCulture)
-                                    : 0M;
+                                    ? BigInteger.Parse(newAccount.Balance)
+                                    : BigInteger.Zero;
 
-                            return accountBalanceChange == 0M ?
+                            return accountBalanceChange == BigInteger.Zero ?
                                 new (string, Amount)[] { } :
                                 new (string, Amount)[]
                                 {
@@ -73,7 +75,7 @@ namespace Lykke.Bil2.Ripple.Client.Api
                                         new Amount
                                         {
                                             Currency = "XRP",
-                                            Value =  (accountBalanceChange / 1_000_000M).ToString("F6", CultureInfo.InvariantCulture)
+                                            Value = new Money(accountBalanceChange, 6)
                                         }
                                     )
                                 };
@@ -84,12 +86,12 @@ namespace Lykke.Bil2.Ripple.Client.Api
                             var finalState = entry.FinalFields?.ToObject<RippleState>();
                             var state = finalState ?? newState;
                             var stateBalanceChange = previousState?.Balance != null && finalState?.Balance != null
-                                ? decimal.Parse(finalState.Balance.Value, CultureInfo.InvariantCulture) - decimal.Parse(previousState.Balance.Value, CultureInfo.InvariantCulture)
-                                :   newState?.Balance != null
-                                    ? decimal.Parse(newState.Balance.Value, CultureInfo.InvariantCulture)
-                                    : 0m;
+                                ? finalState.Balance.Value - previousState.Balance.Value
+                                : newState?.Balance != null
+                                    ? newState.Balance.Value
+                                    : 0;
 
-                            if (stateBalanceChange == 0m)
+                            if (stateBalanceChange == 0)
                             {
                                 return new (string, Amount)[] { };
                             }
@@ -103,7 +105,7 @@ namespace Lykke.Bil2.Ripple.Client.Api
                                 {
                                     Currency = state.Balance.Currency,
                                     Counterparty = state.HighLimit.Counterparty,
-                                    Value = stateBalanceChange.ToString("F", CultureInfo.InvariantCulture)
+                                    Value = stateBalanceChange
                                 }
                             );
 
@@ -114,7 +116,7 @@ namespace Lykke.Bil2.Ripple.Client.Api
                                 {
                                     Currency = state.Balance.Currency,
                                     Counterparty = state.LowLimit.Counterparty,
-                                    Value = decimal.Negate(stateBalanceChange).ToString("F", CultureInfo.InvariantCulture)
+                                    Value = Money.Negate(stateBalanceChange)
                                 }
                             );
 
